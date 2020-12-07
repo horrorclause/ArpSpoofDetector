@@ -23,8 +23,6 @@ def getARP():
     except Exception:
         print('This is not a windows machine')
 
-#print(getARP())
-
 # Uses Regex to iterate through getARP() data and create a new
 # list of the correct IP and MAC pairs, with no empty lists
 def regIpMac(data):
@@ -32,18 +30,16 @@ def regIpMac(data):
     for line in data:
         ip = re.findall(r"(?:\d{1,3}\.)+(?:\d{1,3})", line)  # Regex for IP address
         mac = re.findall(r"(?:\w{1,2}\-)+(?:\w{1,2})", line)  # Regex for MAC
-        if len(ip) and len(mac) > 0:  # Checks to make sure the ip and max regex have contents
-            # Creates a list of the Ip , Mac in the parent list ipAndMac
-            ipAndMac.append([ip[0],mac[0]])
+        if len(ip) and len(mac) > 0:  # Checks to make sure the IP and MAC regex have contents
+            ipAndMac.append([ip[0],mac[0]])  # Creates a list of the Ip & MAC in ipAndMac[]
         else:
             continue
     return ipAndMac
-#print(regIpMac(getARP()))
 
 correctData = regIpMac(getARP())  #Gets the ARP table and parses it
 
 # TODO:Need to run loop twice to catch all instance of broadcast add. Not sure why.
-#      correctData is sanitized of Broadcast Adds.
+#      correctData should be sanitized of Broadcast Adds.
 for i in correctData:
     for x in i:
         if x == broadcastAdd:
@@ -58,24 +54,18 @@ for i in correctData:
 #for i in correctData:
     #print(i)
 
-"""Need to separate duplicates from uniques"""
+
 for i in correctData:
     if i not in holding:  # Separates unique addresses
         holding.append(i)
     else:
         duplicates.append(i)  # Separates duplicated addresses
-#print('***----------------***')
-#print(duplicates)
-#print('***----------------***')
-#print(holding)
 
 duplicates.sort()
 
-"""Dedupes the Duplicates list, and prints out duped machines."""
-
 print('\nThe following machines are being spoofed:')
 print('+'+(len('The following machines are being spoofed: ')*'=') + '+')
-
+# Dedupes the Duplicates list, and prints out duped machines.
 for x in list(duplicates for duplicates,_ in itertools.groupby(duplicates)):  # Sorts duplicates and dedupes
     print('IP: {}'.format(x[0]))
     print('MAC: {}'.format(x[1]))
