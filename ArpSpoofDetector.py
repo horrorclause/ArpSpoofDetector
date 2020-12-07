@@ -1,4 +1,5 @@
-""" Checks if your machine is being attacked via MitM via ARP spoof. """
+""" Checks for duplicate MAC addresses, displays them and outputs to a text file.
+    Could be an indicator of a MitM attack."""
 
 import os
 import re
