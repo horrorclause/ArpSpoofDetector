@@ -40,7 +40,7 @@ def regIpMac(data):
 correctData = regIpMac(getARP())  # Gets the ARP table and parses it
 correctData.sort()
 
-# TODO:Need to run loop twice to catch all instance of broadcast add. Not sure why.
+# TODO:Need to run loop twice to catch all instance of broadcast add.
 #      correctData should be sanitized of Broadcast Adds.
 for i in correctData:
     for x in i:
